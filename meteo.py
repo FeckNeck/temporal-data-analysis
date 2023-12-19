@@ -1,5 +1,6 @@
 import wget
 import os
+import gzip
 
 URL = "https://donneespubliques.meteofrance.fr/donnees_libres/Txt/Synop/Archive/"
 
@@ -17,3 +18,11 @@ for year in range(2013, 2024):
 
         # download file
         wget.download(url, "data/meteo/{}/{}.csv.gz".format(year, str(month).zfill(2)))
+
+        # unzip file
+        with gzip.open("data/meteo/{}/{}.csv.gz".format(year, str(month).zfill(2)), 'rb') as f_in:
+            with open("data/meteo/{}/{}.csv".format(year, str(month).zfill(2)), 'wb') as f_out:
+                f_out.writelines(f_in)
+        
+        # remove zip file
+        os.remove("data/meteo/{}/{}.csv.gz".format(year, str(month).zfill(2)))

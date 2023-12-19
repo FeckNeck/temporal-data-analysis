@@ -1,5 +1,6 @@
 import wget
 import os
+import zipfile
 
 REGIONS = [
     "Auvergne-Rhône-Alpes",
@@ -46,3 +47,10 @@ for region in REGIONS:
 
         # download file
         wget.download(url, "data/eco2mix/{}/{}.zip".format(region, filetype))
+
+        # unzip file
+        with zipfile.ZipFile("data/eco2mix/{}/{}.zip".format(region, filetype), 'r') as zip_ref:
+            zip_ref.extractall("data/eco2mix/{}/".format(region))
+
+        # remove zip file
+        os.remove("data/eco2mix/{}/{}.zip".format(region, filetype))
