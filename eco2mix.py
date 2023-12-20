@@ -30,6 +30,8 @@ FILETYPES = [
     "Annuel-Definitif_2020",
 ]
 
+# eCO2mix_RTE_Auvergne-Rhône-Alpes_En-cours-Consolide
+
 #from unidecode import unidecode
 
 for region in REGIONS:
@@ -51,6 +53,9 @@ for region in REGIONS:
         # unzip file
         with zipfile.ZipFile("data/eco2mix/{}/{}.zip".format(region, filetype), 'r') as zip_ref:
             zip_ref.extractall("data/eco2mix/{}/".format(region))
+
+        # transform file to txt
+        os.rename("data/eco2mix/{}/eCO2mix_RTE_{}_{}.xls".format(region, regionurl, filetype), "data/eco2mix/{}/{}.txt".format(region, filetype))
 
         # remove zip file
         os.remove("data/eco2mix/{}/{}.zip".format(region, filetype))
